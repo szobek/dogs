@@ -13,7 +13,12 @@ export class AppService {
     return this.appRepository.findOne(id);
   }
 
-  create(item: { name: string; age: number }): void {
-    this.appRepository.create(item);
+  create(item: { name: string; age: number }) {
+    const dog = {
+      id: crypto.randomUUID(),
+      name: item.name,
+      age: item.age,
+    };
+    return this.appRepository.create(dog);
   }
 }

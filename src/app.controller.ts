@@ -14,7 +14,7 @@ export class AppController {
 
   @Post()
   createDog(@Body() body: CreateDogDto) {
-  this.appService.create(body);    
+  return this.appService.create(body);    
   }
 
   @Get(':id')
