@@ -14,4 +14,4 @@ content-type: application/json
 
 ### Get a dog by ID
 
-GET http://localhost:3000/52592fba-e1d5-4207-8540-e399a9997379
+GET http://localhost:3000/52592fba-e1d5-4207-8540-e399a999737

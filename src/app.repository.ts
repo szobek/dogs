@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { readFile, writeFile } from 'fs/promises';
 import { Dog } from './dog.model';
 
@@ -9,7 +9,11 @@ export class AppRepository {
   async findOne(id: string):Promise<Dog> {
     const contents = await readFile(this._file, 'utf8');
     const dogs= JSON.parse(contents);
-    return dogs[id];
+    const dog = dogs[id];
+    if (!dog) {
+      throw new NotFoundException(`Dog with id ${id} not found`);
+    }
+    return dog;
   }
 
   async findAll():Promise<Dog[]> {
