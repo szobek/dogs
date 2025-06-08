@@ -1,15 +1,24 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CreateDogDto } from './dtos/createDog.dto';
+import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
+  constructor(public appService: AppService) {
+    console.log('AppController initialized');
+  }
   @Get()
-  getHello() {
-    console.log('getHello called');
+  main() {
+    return this.appService.findAll();
   }
 
   @Post()
-  createMessage(@Body() body: CreateDogDto) {
-    console.log(body);
+  createDog(@Body() body: CreateDogDto) {
+  this.appService.create(body);    
+  }
+
+  @Get(':id')
+  findById(@Param('id') id: string) {
+    return this.appService.findById(id);
   }
 }

@@ -1,28 +1,31 @@
-interface Item {
-  id: number;
-  name: string;
-}
+import { Injectable } from '@nestjs/common';
+import { readFile, writeFile } from 'fs/promises';
 
+@Injectable()
 export class AppRepository {
-  private data: Item[] = [];
-  constructor() {
-    // Initialize with some dummy data
-    this.data = [
-      { id: 1, name: 'Item 1' },
-      { id: 2, name: 'Item 2' },
-      { id: 3, name: 'Item 3' },
-    ];
+  private _file = 'dogs.json';
+
+  async findOne(id: string) {
+    const contents = await readFile(this._file, 'utf8');
+    const dogs= JSON.parse(contents);
+    return dogs[id];
   }
 
-  findAll(): Item[] {
-    return this.data;
+  async findAll() {
+    const contents = await readFile(this._file, 'utf8');
+    const dogs = JSON.parse(contents);
+
+    return dogs;
   }
 
-  findById(id: number): Item | undefined {
-    return this.data.find((item) => item.id === id);
-  }
+  async create(item: { name: string; age: number }) {
+    const contents = await readFile(this._file, 'utf8');
+    const dogs = JSON.parse(contents);
 
-  create(item: Item): void {
-    this.data.push(item);
+    const id = crypto.randomUUID();
+
+    dogs[id] = { id, "name":item.name, age:item.age };
+
+    await writeFile(this._file, JSON.stringify(dogs));
   }
 }
